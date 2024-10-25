@@ -21,34 +21,37 @@ def calcular_eletricidade():
 # (Valor total da conta de luz (R$) - (média de bandeira tarifária) - (COSSIP)) / pela taxa média de kWh
             kwh = (consumo_eletricidade - (consumo_eletricidade * 0.018) - (consumo_eletricidade * 0.03))/0.80
 # Quantidade de kWh consumidos * emissão em kg de CO² por kWh
-            kg_carbono_eletricidade = kwh * 0.0817 
+            kg_carbono_eletricidade = kwh * 0.0385 
 
         case _:
             print("Digite um número válido")
 
-# Calculo de Geração de Energia Elétrica Residencial:
-    opcao_geracao = str(input("\nUtiliza meios de Geração de Energia Elétrica? S/N"))
+# Executa a Função do Cálculo de Eletricidade
+    # Calculo de Geração de Energia Elétrica Residencial:
+    gerador_eletricidade = 0
+    opcao_geracao = str(input("\nUtiliza meios de Geração de Energia Elétrica? S/N: "))
 # Função que converte a string em maiúscula. O usuário pode secrever "n" ou "N" sem problemas
     opcao_geracao = opcao_geracao.upper()
 # Encadeamento de IFs para as diferentes Opção de Geração
     if (opcao_geracao == "S") or (opcao_geracao == "SIM"):
         geracao_eletricidade = str(input("1 para Energia Solar\n2 para Energia Eólica\nDigite o valor desejado: "))
-        if geracao_eletricidade == 1:
+        if geracao_eletricidade == "1":
             gerador_eletricidade = float(input("Digite o valor em kWh mensal da geração de Energia Solar da sua residência: "))
-        elif geracao_eletricidade == 2:
+        elif geracao_eletricidade == "2":
             gerador_eletricidade = float(input("Digite o valor em kWh mensal da geração de Energia Eólica da sua residência: "))
         else:
             print("Digite um número válido")
     elif (opcao_geracao == "N") or (opcao_geracao == "NAO") or (opcao_geracao == "NÃO"):
-# Caso o usuário não tenha um meio de gereação de energia, define o número de kWh gerados como 0 para o cálculo de emissões totais
-        gerador_eletricidade = 0
+# Caso o usuário não tenha um meio de gereação de energia, mantém o número de kWh gerados como 0 para o cálculo de emissões totais 
+        geracao_eletricidade = 0
     else:
         print("Digite um número válido")
 # Quantidade de kWh gerados * emissão em kg de CO² por kWh
-    kg_carbono_evitado = gerador_eletricidade * 0.0817
-    kg_carbono_eletricidade_total = kg_carbono_eletricidade - kg_carbono_evitado
+    kg_carbono_eletricidade_evitado = gerador_eletricidade * 0.0385
+# kg de CO² de eletricidade consumida - kg de CO² de eletricidade evitados 
+    kg_carbono_eletricidade_total = kg_carbono_eletricidade - kg_carbono_eletricidade_evitado
 
-    return (kg_carbono_evitado, kg_carbono_eletricidade_total)
+    return (kg_carbono_eletricidade_total, kg_carbono_eletricidade_evitado)
 
 def calcular_gas():
 # Estrutura de Seleção de Casos do Consumo de Gás
@@ -80,6 +83,7 @@ def calcular_gas():
 
 def calcular_transporte_individual():
     transporte_individual = []
+    transporte_individual_evitado = []
 # Início da Iteração do Transporte Individual
     while True:
         print("Adicione o meio de Transporte Indvidual utilizado:")
@@ -88,8 +92,10 @@ def calcular_transporte_individual():
         match opcao_transporte_individual:
 
             case "1":
-# Uso da variável "carro_total" para calcular a emissão de carros híbridos, fazendo ele entrar mas duas condições e somar as duas emissões, tanto a combustão como elétrica
+# Definindo as variáveis como 0 para poder calcular a emissão de carros híbridos sem problemas, fazendo ele entrar mas duas condições e somar as duas emissões, tanto a combustão como elétrica
                 carro_total = 0
+                carro_evitado = 0
+                carro_evitado_total = 0
                 print("\nQuantos Quilômetros percorridos de Carro?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
                 print("\nQual o Tipo do seu carro?")
@@ -101,17 +107,22 @@ def calcular_transporte_individual():
                     print("\nQual o Rendimento do seu Carro?")
                     rendimento = int(input("Digite quantos km/l (quilômetros por litro) o seu carro faz com o combustível: "))
                     if combustivel == 1:
-# Distância em km * (emissão em kg de CO² do combustível / rendimento)
+# Distância em km * (emissão em kg de CO² do combustível por km)
                         carro = km * (2.28/rendimento)
                     elif combustivel == 2:
 # *Pra descobrir a emissão do etanol, usei o link indicado que deu apenas a emissão do álcool etílico hidratado misturado em 23% de gasolina (0.389kg). Sendo assim, multipliquei esse valor por 4.348 (100%/23%) para conseguir a emissão por litro de etanol 
                         carro = km * (1.691/rendimento)
+# Cálcula da emissão evitada ao utilizar o etanol ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual com etanol
+                        carro_evitado = km * (2.28/rendimento) - carro
                     elif combustivel == 3:
                         carro = km * (2.6/rendimento)
                     elif combustivel == 4:
 # *De acordo com nossa fonte, a emissão do GNV é 15% menor que a do etanol. Sendo assim, 1.691 - 15% de 1.691 dá 1.437kg de CO² 
                         carro = km * (1.437/rendimento)
-                    carro_total = carro + carro_total
+# Cálculo da emissão evitada ao utilizar o GNV ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual com GNV
+                        carro_evitado = km * (2.28/rendimento) - carro
+                    carro_total = carro_total + carro
+                    carro_evitado_total = carro_evitado_total + carro_evitado
                     
                 if (tipo == 2) or (tipo == 3):
                     print("\nQual a Autonomia do seu Carro?")
@@ -120,8 +131,12 @@ def calcular_transporte_individual():
                     capacidade_bateria = float(input("Digite a quantidade em kWh da Capacidade Total da bateria: "))
 # Distância em km * (consumo do carro em kWh por km) * emissão em kg de CO² por kWh
                     carro = km * (capacidade_bateria/autonomia) * 0.0385
+# Cálculo da emissão evitada ao utilizar o carro/motor elétrico ao invés do a combustão com gasolina. A conta se utiliza da quantidade percorrida em km * (emissão média de kg de CO² do combustível por km) subtraído pela emissão atual com o carro/motor elétrico
+                    carro_evitado = km * (2.28/9.83) - carro
                     carro_total = carro + carro_total
+                    carro_evitado_total = carro_evitado_total + carro_evitado
                 transporte_individual.append(carro_total)
+                transporte_individual_evitado.append(carro_evitado_total)
 
             case "2":
 # Novamente, uso da variável "moto_total" para calcular a emissão de motos híbridas, fazendo ele entrar mas duas condições e somar as duas emissões, tanto a combustão como elétrica
@@ -210,9 +225,9 @@ def calcular_transporte_individual():
 # Calculo de emissões por Bicicleta de Transporte Individual:
                 print("\nQuantos Quilômetros percorridos de Bicicleta?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
-# A ideia aqui é calcular a emissão evitada utilizando bicicleta. Os valores são de um carro a gasolina
-                bike_evitada = km * (2.28/9.83)
-                transporte_individual.append(bike)
+# A ideia aqui é calcular a emissão evitada utilizando bicicleta. Os valores são da emissão de kg de CO² por litro de gasolina queimada / rendimento médio de carros a combustão
+                bike_evitado = km * (2.28/9.83)
+                transporte_individual_evitado.append(bike_evitado)
 
             case "6":
 # Calculo de emissões por Bicicleta Elétrica de Transporte Individual:
@@ -220,7 +235,10 @@ def calcular_transporte_individual():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Bicicleta Elétrica
                 bicicleta_eletrica = km * 0.022
+# Cálculo da emissão evitada ao utilizar a bicicleta elétrica ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual da bicicleta elétrica
+                bicicleta_eletrica_evitado = km * (2.28/9.83) - bicicleta_eletrica
                 transporte_individual.append(bicicleta_eletrica)
+                transporte_individual_evitado.append(bicicleta_eletrica_evitado)
 
             case "7":
 # Calculo de emissões por Patinete Elétrico de Transporte Individual:
@@ -228,7 +246,10 @@ def calcular_transporte_individual():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Patinete Elétrico
                 patinete_eletrico = km * 0.125
+# Cálculo da emissão evitada ao utilizar o patinete elétrico ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual do patinete elétrico
+                patinete_eletrico_evitado = km * (2.28/9.83) - patinete_eletrico
                 transporte_individual.append(patinete_eletrico)
+                transporte_individual_evitado.append(patinete_eletrico_evitado)
 
 # Fim da Iteração do Transporte Individual
             case "0":
@@ -239,10 +260,14 @@ def calcular_transporte_individual():
                 print("Digite um número válido")
         
     soma_transporte_individual = sum(transporte_individual)
-    return soma_transporte_individual
+    soma_transporte_individual_evitado = sum(transporte_individual_evitado)
+    print(transporte_individual)
+    print(transporte_individual_evitado)
+    return (soma_transporte_individual, soma_transporte_individual_evitado)
 
 def calcular_transporte_coletivo():
     transporte_coletivo = []
+    transporte_coletivo_evitado = []
 # Início da Iteração do Transporte Coletivo
     while True:
         print("Adicione o meio de Transporte Coletivo utilizado:")
@@ -264,16 +289,21 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Metrô
                 metro = km * 0.006
+# Cálculo da emissão evitada ao utilizar metrô ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de metrô
+                metro_evitado = km * (2.28/9.83) - metro
                 transporte_coletivo.append(metro)
-                print(transporte_coletivo)
+                transporte_coletivo_evitado.append(metro_evitado)
 
             case "3":
-# Cálculo de emissões por Trêm de Transporte Coletivo:
-                print("\nQuantos Quilômetros percorridos de Trêm?")
+# Cálculo de emissões por Trem de Transporte Coletivo:
+                print("\nQuantos Quilômetros percorridos de Trem?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
-# Distância em km * emissão em kg de CO² por Passageiro/km
+# Distância em km * emissão em kg de CO² por Passageiro/km de Trem
                 trem = km * 0.019
+# Cálculo da emissão evitada ao utilizar trem ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de trem
+                trem_evitado = km * (2.28/9.83) - trem
                 transporte_coletivo.append(trem)
+                transporte_coletivo_evitado.append(trem_evitado)
 
             case "4":
 # Cálculo de emissões por Ônibus de Transporte Coletivo:
@@ -281,7 +311,10 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Ônibus
                 onibus = km * 0.080
+# Cálculo da emissão evitada ao utilizar ônibus ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de ônibus
+                onibus_evitado = km * (2.28/9.83) - onibus
                 transporte_coletivo.append(onibus)
+                transporte_coletivo_evitado.append(onibus_evitado)
 
             case "5":
 # Cálculo de emissões por Ônibus de Viagem de Transporte Coletivo:
@@ -289,7 +322,10 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Ônibus de Viagem
                 onibus_viagem = km * 0.080
+# Cálculo da emissão evitada ao utilizar ônibus de viagem ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de ônibus de viagem
+                onibus_viagem_evitado = km * (2.28/9.83) - onibus_viagem
                 transporte_coletivo.append(onibus_viagem)
+                transporte_coletivo_evitado.append(onibus_viagem_evitado)
 
 # Fim da Iteração do Transporte Coletivo
             case "0":
@@ -300,7 +336,10 @@ def calcular_transporte_coletivo():
                 print("Digite um número válido")
         
     soma_transporte_coletivo = sum(transporte_coletivo)
-    return soma_transporte_coletivo
+    soma_transporte_coletivo_evitado = sum(transporte_coletivo_evitado)
+    print(transporte_coletivo)
+    print(transporte_coletivo_evitado)
+    return (soma_transporte_coletivo, soma_transporte_coletivo_evitado)
 
 def calcular_transporte_viagem():
     transporte_viagem = []
@@ -369,9 +408,13 @@ while True:
     if (iniciar == "S") or (iniciar == "SIM"):
 # Definindo as variáveis como 0 para que o usuário possa cálcular apenas a emissão que ele quer sem dar conflito cálculo final
         total_eletricidade = 0
+        total_eletricidade_evitado = 0
         total_gas = 0
+        total_gas_evitado = 0
         total_transporte_individual = 0
+        total_transporte_individual_evitado = 0
         total_transporte_coletivo = 0
+        total_transporte_coletivo_evitado = 0
         total_transporte_viagem = 0
         print("\n------------------------ Iniciando Calculadora de Carbono ------------------------")
 # Início da Iteração do Tipo de Emissão
@@ -384,7 +427,12 @@ while True:
                 case "1":
 # Início do Cálculo de Consumo Elétrico
                     print("\n * Cálculo do Consumo de Eletricidade Residencial * ")
-                    total_eletricidade = (calcular_eletricidade())/1000
+                    tupla_eletricidade = calcular_eletricidade()
+                    total_eletricidade = tupla_eletricidade[0]
+# Divisão por 1000 para a conversão de kg de CO² emitidos para toneladas
+                    total_eletricidade = total_eletricidade/1000
+                    total_eletricidade_evitado = tupla_eletricidade[1]
+                    total_eletricidade_evitado = total_eletricidade_evitado/1000 
 
                 case "2":
 # Início do Cálculo de Consumo de Gás
@@ -394,12 +442,20 @@ while True:
                 case "3":
 # Início do Cálculo de Transporte Individual
                     print("\n * Cálculo do Consumo de Transporte Individual * ")
-                    total_transporte_individual = calcular_transporte_individual()/1000
+                    tupla_transporte_individual = calcular_transporte_individual()
+                    total_transporte_individual = tupla_transporte_individual[0]
+                    total_transporte_individual = total_transporte_individual/1000
+                    total_transporte_individual_evitado = tupla_transporte_individual[1]
+                    total_transporte_individual = total_transporte_individual/1000
 
                 case "4":
 # Início do Cálculo de Transporte Coletivo
                     print("\n * Cálculo do Consumo de Transporte Coletivo * ")
-                    total_transporte_coletivo = calcular_transporte_coletivo()/1000
+                    tupla_transporte_coletivo = calcular_transporte_coletivo()
+                    total_transporte_coletivo = tupla_transporte_coletivo[0]
+                    total_transporte_coletivo = total_transporte_coletivo/1000
+                    total_transporte_coletivo_evitado = tupla_transporte_coletivo[1]
+                    total_transporte_coletivo = total_transporte_coletivo/1000
 
                 case "5":
 # Início do Cálculo de Transporte de Viagem
@@ -415,6 +471,31 @@ while True:
 
 # Somatória de todas as emissões com uma função de arredondamento
         total_emissoes = round(total_eletricidade + total_gas + total_transporte_individual + total_transporte_coletivo + total_transporte_viagem, 3)
+# Somatória de todas as emissões evitadas com uma função de arredondamento
+        total_emissoes_evitado = round(total_eletricidade_evitado + total_gas_evitado + total_transporte_individual_evitado + total_transporte_coletivo_evitado, 3)
+
+# Condição que evita o erro de divisão por 0 caso o usuário não coloque valores
+        if (total_emissoes == 0) and (total_emissoes_evitado == 0):
+            total_emissoes = 1
+            total_emissoes_evitado = 1
+
+# Cálculo das porcentagens das emissões
+        porcentegem_eletricidade = total_eletricidade/total_emissoes
+        porcentagem_gas = total_gas/total_emissoes
+        porcentagem_transporte_individual = total_transporte_individual/total_emissoes
+        porcentagem_transporte_coletivo = total_transporte_coletivo/total_emissoes
+        porcentagem_transporte_viagem = total_transporte_viagem/total_emissoes
+# Cálculo das porcentagens das emissões evitadas
+        porcentegem_eletricidade_evitado = total_eletricidade_evitado/total_emissoes_evitado
+        porcentagem_gas_evitado = total_gas_evitado/total_emissoes_evitado
+        porcentagem_transporte_individual_evitado = total_transporte_individual_evitado/total_emissoes_evitado
+        porcentagem_transporte_coletivo_evitado = total_transporte_coletivo_evitado/total_emissoes_evitado
+
+# Condição que evita o erro de divisão por 0 caso o usuário não coloque valores
+        if (total_emissoes == 1) and (total_emissoes_evitado == 1):
+            total_emissoes = 0
+            total_emissoes_evitado = 0
+
 # Quantidade de árvores a serem plantadas = emissões em toneladas de CO² * quantidade de árvores necessárias para absorverem 1 tonelada de CO²
         arvores_reposicao = total_emissoes * 7.14
 # Quantidade de m² de árvores a serem plantadas = quantidade de árvores a serem plantadas * quantidade de m² que cada árvore ocupa
@@ -426,13 +507,13 @@ while True:
             
 # Exibição dos Resultados dos Cálculos
         print("\n * Resultados dos Cálculos * ")
-        print("Fonte                   Emissões(tCO²e)           %")
-        print(f"Eletricidade                {total_eletricidade:.3f}               {total_eletricidade/total_emissoes:.2%}")
-        print(f"Gás                         {total_gas:.3f}               {total_gas/total_emissoes:.2%}")
-        print(f"Transporte Individual       {total_transporte_individual:.3f}               {total_transporte_individual/total_emissoes:.2%}")
-        print(f"Transporte Coletivo         {total_transporte_coletivo:.3f}               {total_transporte_coletivo/total_emissoes:.2%}")
-        print(f"Transporte de Viagem        {total_transporte_viagem:.3f}               {total_transporte_viagem/total_emissoes:.2%}")
-        print(f"Total                       {total_emissoes}               {total_emissoes/total_emissoes:.2%}")
+        print("Fonte                 Emissões(tCO²)      %Emissões       Evitadas(tCO²)       %Evitadas")
+        print(f"Eletricidade              {total_eletricidade:.3f}             {porcentegem_eletricidade:.2%}             {total_eletricidade_evitado:.3f}              {porcentegem_eletricidade_evitado:.2%}")
+        print(f"Gás                       {total_gas:.3f}             {porcentagem_gas:.2%}             {total_gas_evitado:.3f}              {porcentagem_gas_evitado:.2%}")
+        print(f"Transporte Individual     {total_transporte_individual:.3f}             {porcentagem_transporte_individual:.2%}             {total_transporte_individual_evitado:.3f}              {porcentagem_transporte_individual_evitado:.2%}")
+        print(f"Transporte Coletivo       {total_transporte_coletivo:.3f}             {porcentagem_transporte_coletivo:.2%}             {total_transporte_coletivo_evitado:.3f}              {porcentagem_transporte_coletivo_evitado:.2%}")
+        print(f"Transporte de Viagem      {total_transporte_viagem:.3f}             {porcentagem_transporte_viagem:.2%}              ---                ---")
+        print(f"Total                     {total_emissoes:.3f}            {1:.2%}            {total_emissoes_evitado:.3f}             {1:.2%}")
         print(f"\nPara compensar a quatidade de gases emitidos:\nÉ preciso restaurar {m2_reposicao:.2f}m² de árvores\nOu plantar {arvores_reposicao:.0f} árvore(s)")
         print(f"Doe R${reais_doacao:.2f} para ajudar a mitigar os impactos causados\nO enquivalente a {creditos_carbono:.0f} crédito(s) de carbono")
         print("Obrigado por dar um passo a diante e tentar se tornar uma pessoa mais consciente!")

@@ -3,6 +3,7 @@
 
 def calcular_eletricidade():
 # Estrutura de Seleção de Casos do Consumo de Eletricidade Residencial
+    print("Como deseja calcular o Consumo de Eletricidade?")
     opcao_eletricidade = str(input("1 para calcular em kWh\n2 para calcular em R$\nDigite o valor desejado: "))
     match opcao_eletricidade:
 
@@ -54,30 +55,52 @@ def calcular_eletricidade():
     return (kg_carbono_eletricidade_total, kg_carbono_eletricidade_evitado)
 
 def calcular_gas():
+    kg_carbono_gas = 0
+    print("Qual o Gás de Cozinha utilizado?")
+    tipo_gas = int(input("1 para GLP (Gás Liquefeito de Petróleo)\n2 para GN (Gás Natural)\nDigite o valor desejado: "))
+    if tipo_gas == 1:
 # Estrutura de Seleção de Casos do Consumo de Gás
-    opcao_gas = str(input("1 para calcular em m³\n2 para calcular em quantidade de botijões\n3 para calcular em R$\nDigite o valor desejado: "))
-    match opcao_gas:
+        print("\nComo deseja calcular o Consumo de Gás de Cozinha?")
+        opcao_gas = str(input("1 para calcular em m³\n2 para calcular em quantidade de botijões\nDigite o valor desejado: "))
+        match opcao_gas:
 
-        case "1":
-# Calculo de emissões por m³ de Consumo de Gás Residencial:
-            consumo_gas = float(input("Digite o valor de m³ de consumo de gás mensal: "))
+            case "1":
+# Calculo de emissões por m³ de Consumo de GLP:
+                consumo_gas = float(input("Digite o valor de m³ de consumo de gás mensal: "))
 # Quantidade de m³ consumidos * o peso (kg) do m³ de GLP * emissão em kg de CO² por kg de GLP queimado
-            kg_carbono_gas = consumo_gas * 2.3 * 3.02
+                kg_carbono_gas = consumo_gas * 2.3 * 3.02
 
-        case "2":
+            case "2":
 # Calculo de emissões por Quantidade de Botijões de Consumo de Gás Residencial:
-            consumo_gas = int(input("Digite a Quantidade de Botijões de gás consumidos em um mês: "))
+                consumo_gas = float(input("Digite a Quantidade de Botijões de gás consumidos em um mês: "))
+                peso_botijao = int(input("Digite o peso em kg de cada botijão (Ex: P13 tem 13kg, P45 tem 45kg): "))
 # Quantidade de botijões consumidos * o peso (kg) do botijão médio * emissão em kg de CO² por kg de GLP queimado
-            kg_carbono_gas = consumo_gas * 13 * 3.02
-
-        case "3":
-# Calculo de emissões por R$ de Consumo de Gás Residencial:
-            consumo_gas = float(input("Digite o valor em R$ de consumo de gás mensal: "))
-# ((Valor da conta - (valor aproximado de impostos (25%))) / valor (R$) do m³ de GLP) * o peso (kg) que cada m³ tem * emissão em kg de CO² por kg de GLP queimado
-            kg_carbono_gas = ((consumo_gas - (consumo_gas * 0.25))/ 7.785) * 2.3 * 3.02
+                kg_carbono_gas = consumo_gas * peso_botijao * 3.02
             
-        case _:
-            print("Digite um número válido")
+            case _:
+                print("Digite um número válido")
+                
+    elif tipo_gas == 2:
+        print("\nComo deseja calcular o Consumo de Gás de Cozinha?")
+        opcao_gas = str(input("1 para calcular em m³\n3 para calcular em R$ (conta)\nDigite o valor desejado: "))
+        match opcao_gas:
+
+            case "1":
+# Calculo de emissões por m³ de Consumo de GNl:
+                consumo_gas = float(input("Digite o valor de m³ de consumo de gás mensal: "))
+# Quantidade de m³ consumidos * o peso (kg) do m³ de GN * emissão em kg de CO² por kg de GN queimado
+                kg_carbono_gas = consumo_gas * 0.78 * 2.747
+
+            case "2":
+# Calculo de emissões por R$ de Consumo de Gás Residencial:
+                consumo_gas = float(input("Digite o valor em R$ de consumo de gás mensal: "))
+# (Valor da conta - (ICMS de 15%)) - Termo Fixo médio (imposto)
+                conta_gas = (consumo_gas - (consumo_gas * 0.15)) - 15.02
+# (Valor da conta sem impostos / valor (R$) do m³ de GN) * o peso (kg) que cada m³ tem * emissão em kg de CO² por kg de GN queimado
+                kg_carbono_gas = (conta_gas/ 7.785) * 0.78 * 2.747
+            
+            case _:
+                print("Digite um número válido")
 
     return kg_carbono_gas
 
@@ -86,7 +109,7 @@ def calcular_transporte_individual():
     transporte_individual_evitado = []
 # Início da Iteração do Transporte Individual
     while True:
-        print("Adicione o meio de Transporte Indvidual utilizado:")
+        print("Adicione o(s) meio(s) de Transporte Indvidual utilizado(s):")
         opcao_transporte_individual = str(input("1 para Carro\n2 para Moto\n3 para Van\n4 para Caminhão\n5 para Bicicleta\n6 para Bicicleta Elétrica\n7 para Patinete Elétrico\n8 caso não tenha usado Transporte Indiviudal\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Individual
         match opcao_transporte_individual:
@@ -270,7 +293,7 @@ def calcular_transporte_coletivo():
     transporte_coletivo_evitado = []
 # Início da Iteração do Transporte Coletivo
     while True:
-        print("Adicione o meio de Transporte Coletivo utilizado:")
+        print("Adicione o(s) meio(s) de Transporte Coletivo utilizado(s):")
         opcao_transporte_coletivo = str(input("1 para Táxi\n2 para Metrô\n3 para Trem\n4 para Ônibus Municipal\n5 para Ônibus de Viagem\n6 caso não tenha usado Transporte Coletivo\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Coletivo
         match opcao_transporte_coletivo:
@@ -345,7 +368,7 @@ def calcular_transporte_viagem():
     transporte_viagem = []
 # Início da Iteração do Transporte de Viagem
     while True:
-        print("Adicione o meio de Transporte de Viagem utilizado:")
+        print("Adicione o(s) meio(s) de Transporte de Viagem utilizado(s):")
         opcao_transporte_viagem = str(input("1 para Avião\n2 para Barco\n3 para Návio\n4 caso não tenha usado Transporte de Viagem\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Coletivo
         match opcao_transporte_viagem:
@@ -402,20 +425,28 @@ def calcular_transporte_viagem():
 iniciar = str(input("Deseja iniciar a Calculadora de Carbono? S/N: "))
 # Função que converte a string em maiúscula. O usuário pode secrever "n" ou "N" sem problemas
 iniciar = iniciar.upper()
-# Iniciando Iteração do Programa
+# Iniciando Iteração do programa
 while True:
 
     if (iniciar == "S") or (iniciar == "SIM"):
 # Definindo as variáveis como 0 para que o usuário possa cálcular apenas a emissão que ele quer sem dar conflito cálculo final
         total_eletricidade = 0
         total_eletricidade_evitado = 0
+        porcentegem_eletricidade = 0
+        porcentegem_eletricidade_evitado = 0
         total_gas = 0
-        total_gas_evitado = 0
+        porcentagem_gas = 0
         total_transporte_individual = 0
         total_transporte_individual_evitado = 0
+        porcentagem_transporte_individual = 0
+        porcentagem_transporte_individual_evitado = 0
         total_transporte_coletivo = 0
         total_transporte_coletivo_evitado = 0
+        porcentagem_transporte_coletivo = 0
+        porcentagem_transporte_coletivo_evitado = 0
         total_transporte_viagem = 0
+        porcentagem_transporte_viagem = 0
+
         print("\n------------------------ Iniciando Calculadora de Carbono ------------------------")
 # Início da Iteração do Tipo de Emissão
         while True:
@@ -429,38 +460,37 @@ while True:
                     print("\n * Cálculo do Consumo de Eletricidade Residencial * ")
                     tupla_eletricidade = calcular_eletricidade()
                     total_eletricidade = tupla_eletricidade[0]
-# Divisão por 1000 para a conversão de kg de CO² emitidos para toneladas
-                    total_eletricidade = total_eletricidade/1000
+                    total_eletricidade = total_eletricidade
                     total_eletricidade_evitado = tupla_eletricidade[1]
-                    total_eletricidade_evitado = total_eletricidade_evitado/1000 
+                    total_eletricidade_evitado = total_eletricidade_evitado
 
                 case "2":
 # Início do Cálculo de Consumo de Gás
                     print("\n * Cálculo do Consumo de Gás Residencial * ")
-                    total_gas = calcular_gas()/1000
+                    total_gas = calcular_gas()
 
                 case "3":
 # Início do Cálculo de Transporte Individual
                     print("\n * Cálculo do Consumo de Transporte Individual * ")
                     tupla_transporte_individual = calcular_transporte_individual()
                     total_transporte_individual = tupla_transporte_individual[0]
-                    total_transporte_individual = total_transporte_individual/1000
+                    total_transporte_individual = total_transporte_individual
                     total_transporte_individual_evitado = tupla_transporte_individual[1]
-                    total_transporte_individual = total_transporte_individual/1000
+                    total_transporte_individual = total_transporte_individual
 
                 case "4":
 # Início do Cálculo de Transporte Coletivo
                     print("\n * Cálculo do Consumo de Transporte Coletivo * ")
                     tupla_transporte_coletivo = calcular_transporte_coletivo()
                     total_transporte_coletivo = tupla_transporte_coletivo[0]
-                    total_transporte_coletivo = total_transporte_coletivo/1000
+                    total_transporte_coletivo = total_transporte_coletivo
                     total_transporte_coletivo_evitado = tupla_transporte_coletivo[1]
-                    total_transporte_coletivo = total_transporte_coletivo/1000
+                    total_transporte_coletivo = total_transporte_coletivo
 
                 case "5":
 # Início do Cálculo de Transporte de Viagem
                     print("\n * Cálculo do Consumo de Transporte de Viagem * ")
-                    total_transporte_viagem = calcular_transporte_viagem()/1000
+                    total_transporte_viagem = calcular_transporte_viagem()
                 
 # Fim da Iteração do Tipo de Emissão
                 case "0":
@@ -472,64 +502,69 @@ while True:
 # Somatória de todas as emissões com uma função de arredondamento
         total_emissoes = round(total_eletricidade + total_gas + total_transporte_individual + total_transporte_coletivo + total_transporte_viagem, 3)
 # Somatória de todas as emissões evitadas com uma função de arredondamento
-        total_emissoes_evitado = round(total_eletricidade_evitado + total_gas_evitado + total_transporte_individual_evitado + total_transporte_coletivo_evitado, 3)
-
-# Condição que evita o erro de divisão por 0 caso o usuário não coloque valores
-        if (total_emissoes == 0) and (total_emissoes_evitado == 0):
-            total_emissoes = 1
-            total_emissoes_evitado = 1
+        total_emissoes_evitado = round(total_eletricidade_evitado + total_transporte_individual_evitado + total_transporte_coletivo_evitado, 3)
+# Junção dos dois totais para ter a quantidade de emissões reais do usuário
+        total_emissoes_final = (total_emissoes - total_emissoes_evitado)
+# Condição que evita de aparecer um valor negativo de emissões, como -10kg de CO² por exemplo
+        if total_emissoes_final < 0:
+            total_emissoes_final = 0      
 
 # Cálculo das porcentagens das emissões
-        porcentegem_eletricidade = total_eletricidade/total_emissoes
-        porcentagem_gas = total_gas/total_emissoes
-        porcentagem_transporte_individual = total_transporte_individual/total_emissoes
-        porcentagem_transporte_coletivo = total_transporte_coletivo/total_emissoes
-        porcentagem_transporte_viagem = total_transporte_viagem/total_emissoes
+        if total_emissoes > 0:
+            porcentegem_eletricidade = total_eletricidade/total_emissoes
+            porcentagem_gas = total_gas/total_emissoes
+            porcentagem_transporte_individual = total_transporte_individual/total_emissoes
+            porcentagem_transporte_coletivo = total_transporte_coletivo/total_emissoes
+            porcentagem_transporte_viagem = total_transporte_viagem/total_emissoes
 # Cálculo das porcentagens das emissões evitadas
-        porcentegem_eletricidade_evitado = total_eletricidade_evitado/total_emissoes_evitado
-        porcentagem_gas_evitado = total_gas_evitado/total_emissoes_evitado
-        porcentagem_transporte_individual_evitado = total_transporte_individual_evitado/total_emissoes_evitado
-        porcentagem_transporte_coletivo_evitado = total_transporte_coletivo_evitado/total_emissoes_evitado
+        if total_emissoes_evitado > 0:
+            porcentegem_eletricidade_evitado = total_eletricidade_evitado/total_emissoes_evitado
+            porcentagem_transporte_individual_evitado = total_transporte_individual_evitado/total_emissoes_evitado
+            porcentagem_transporte_coletivo_evitado = total_transporte_coletivo_evitado/total_emissoes_evitado
 
-# Condição que evita o erro de divisão por 0 caso o usuário não coloque valores
-        if (total_emissoes == 1) and (total_emissoes_evitado == 1):
-            total_emissoes = 0
-            total_emissoes_evitado = 0
-
+# Divisão por 1000 nas contas para a conversão de kg de CO² emitidos para toneladas
 # Quantidade de árvores a serem plantadas = emissões em toneladas de CO² * quantidade de árvores necessárias para absorverem 1 tonelada de CO²
-        arvores_reposicao = total_emissoes * 7.14
+        arvores_reposicao = (total_emissoes_final/1000) * 7.14
 # Quantidade de m² de árvores a serem plantadas = quantidade de árvores a serem plantadas * quantidade de m² que cada árvore ocupa
         m2_reposicao = arvores_reposicao * 6
-# 1 Crédito de Carbono = 1 tonelada de CO²
-        creditos_carbono = total_emissoes
-# R$ a serem doados = Créditos de Carbono * valor em R$ de cada crédito
-        reais_doacao = creditos_carbono * 25
+# 1 Crédito de Carbono = 1 tonelada de CO² evitada
+        creditos_carbono = total_emissoes_evitado/1000
+# R$ a serem doados = quantidade de CO² emitido em toneladas equivalentes a Créditos de Carbono * valor em R$ de cada Crédito
+        reais_doacao = (total_emissoes_final/1000) * 25
             
 # Exibição dos Resultados dos Cálculos
         print("\n * Resultados dos Cálculos * ")
-        print("Fonte                 Emissões(tCO²)      %Emissões       Evitadas(tCO²)       %Evitadas")
-        print(f"Eletricidade              {total_eletricidade:.3f}             {porcentegem_eletricidade:.2%}             {total_eletricidade_evitado:.3f}              {porcentegem_eletricidade_evitado:.2%}")
-        print(f"Gás                       {total_gas:.3f}             {porcentagem_gas:.2%}             {total_gas_evitado:.3f}              {porcentagem_gas_evitado:.2%}")
-        print(f"Transporte Individual     {total_transporte_individual:.3f}             {porcentagem_transporte_individual:.2%}             {total_transporte_individual_evitado:.3f}              {porcentagem_transporte_individual_evitado:.2%}")
-        print(f"Transporte Coletivo       {total_transporte_coletivo:.3f}             {porcentagem_transporte_coletivo:.2%}             {total_transporte_coletivo_evitado:.3f}              {porcentagem_transporte_coletivo_evitado:.2%}")
-        print(f"Transporte de Viagem      {total_transporte_viagem:.3f}             {porcentagem_transporte_viagem:.2%}              ---                ---")
-        print(f"Total                     {total_emissoes:.3f}            {1:.2%}            {total_emissoes_evitado:.3f}             {1:.2%}")
-        print(f"\nPara compensar a quatidade de gases emitidos:\nÉ preciso restaurar {m2_reposicao:.2f}m² de árvores\nOu plantar {arvores_reposicao:.0f} árvore(s)")
-        print(f"Doe R${reais_doacao:.2f} para ajudar a mitigar os impactos causados\nO enquivalente a {creditos_carbono:.0f} crédito(s) de carbono")
-        print("Obrigado por dar um passo a diante e tentar se tornar uma pessoa mais consciente!")
-        encerrar = int(input("\nDeseja Repetir ou Encerrar a Cálculadora de Carbono?\n1 para Repetir\n2 para Encerrar\nDigite o valor desejado: "))
-
+        print("Fonte                Emissões(kgCO²)   %Emissões   Evitadas(kgCO²)   %Evitadas")
+        print(f"Eletricidade              {total_eletricidade:.2f}            {porcentegem_eletricidade:.1f}           {total_eletricidade_evitado:.2f}            {porcentegem_eletricidade_evitado:.1f}")
+        print(f"Gás                       {total_gas:.2f}            {porcentagem_gas:.1f}           ----            ---")
+        print(f"Transporte Individual     {total_transporte_individual:.2f}            {porcentagem_transporte_individual:.1f}           {total_transporte_individual_evitado:.2f}            {porcentagem_transporte_individual_evitado:.1f}")
+        print(f"Transporte Coletivo       {total_transporte_coletivo:.2f}            {porcentagem_transporte_coletivo:.1f}           {total_transporte_coletivo_evitado:.2f}            {porcentagem_transporte_coletivo_evitado:.1f}")
+        print(f"Transporte de Viagem      {total_transporte_viagem:.2f}            {porcentagem_transporte_viagem:.1f}           ----            ---")
+        print(f"Total                     {total_emissoes:.2f}           {1:.1%}         {total_emissoes_evitado:.2f}           {1:.1%}")
+        print(f"\nAo final, você emitiu {total_emissoes_final:.2f}kg de CO² e evitou {total_emissoes_evitado:.2f}kg de CO².")
+        if creditos_carbono >= 1:
+            print(f"Parabéns, você gerou o equivalente a {creditos_carbono} Crédito(s) de Carbono graças as emissões evitadas pelas suas ações.")
+        if total_emissoes_final > 0:
+            print(f"É preciso restaurar {m2_reposicao:.2f}m² de árvores ou plantar {arvores_reposicao:.0f} árvore(s).")
+            print(f"Doe R${reais_doacao:.2f} para ajudar a mitigar os impactos causados.")
+        print("Obrigado por dar um passo a diante e se tornar uma pessoa mais consciente utilizando a nossa Calculadora de Carbono para medir as suas emissões mensais.")
+        encerrar = str(input("\nDeseja Repetir ou Encerrar a Cálculadora de Carbono?\n1 para Repetir\n2 para Encerrar\nDigite o valor desejado: "))
 # Se o usuário desejar, o programa repetirá todos os passos até ser encerrado
-        if encerrar == 1:
+        if encerrar == "1":
             continue
 
 # --------------------------------------Finalização da Execução ------------------------------------------
 
-        if encerrar == 2:
+# Fim da Iteração do programa
+        elif encerrar == "2":
             print("\n------------------------ Programa Encerrado ------------------------\n")
             break 
 
-# Fim da Iteração do Programa
+        else:
+            print("Digite um comando válido")
+# ?
+
+# Fim da Iteração do programa caso o usuário não queira iniciar
     elif (iniciar == "N") or (iniciar == "NÃO") or (iniciar == "NAO"):
         print("\n------------------------ Programa Encerrado ------------------------\n")
         break
@@ -537,3 +572,4 @@ while True:
     else:
         print("Digite um comando válido")
         break
+# ?

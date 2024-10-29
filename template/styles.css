@@ -1,0 +1,9 @@
+* {
+    font-family: Arial;
+    font-size: 14px;
+}
+
+#bloco {
+    display: flex;
+    flex-direction: row;
+}

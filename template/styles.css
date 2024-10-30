@@ -49,7 +49,7 @@ body {
 }
 
 #calculadora {
-    background-color: black;
+    background-color: rgb(240, 240, 240);
     display: flex;
     flex-direction: row;
     height: 700px;
@@ -87,7 +87,7 @@ body {
     justify-content: center;
 }
 
-.linha button {
+.btn_calculadora {
     margin: 10%;
     padding: 40% 60%;
     font-size: 30px;
@@ -104,5 +104,19 @@ body {
 }
 
 #inputs_calculadora {
+    display: flex;
+    flex-direction: column;
     width: 50%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.opcao_emissao {
+    width: 40%;
+    margin: 3%;
+    padding: 2%;
+    color: white;
+    border-radius: 10px;
+    background-color: rgb(53, 180, 53);
 }

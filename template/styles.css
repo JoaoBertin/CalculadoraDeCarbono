@@ -1,9 +1,25 @@
 * {
+    margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: Arial;
     font-size: 14px;
 }
 
-#bloco {
+.bloco {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+
+#banner {
+    height: 550px;
+    background-image: url("/im");
+    background-size: cover;
 }

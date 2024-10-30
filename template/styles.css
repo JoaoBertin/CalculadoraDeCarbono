@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    list-style: none;
+    text-decoration: none;
 }
 
 body {
@@ -15,11 +17,92 @@ body {
     text-align: center;
     align-items: center;
     justify-content: center;
-    border: 2px solid black;
 }
 
 #banner {
     height: 550px;
-    background-image: url("/im");
+    background-image: url("./img/FundoBanner.png");
     background-size: cover;
+}
+
+#destaque_imagem {
+    width: 60%;
+}
+
+#txt_banner {
+    width: 40%;
+    height: 100%;
+    font-size: 20px;
+    line-height: 3rem;
+    background-color: rgba(255, 255, 255, 0.596);
+}
+
+#txt_banner a {
+    padding: 2%;
+    color: white;
+    border-radius: 10px;
+    background-color: rgb(20, 151, 20);
+}
+
+#introducao {
+    height: 500px
+}
+
+#calculadora {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    height: 700px;
+}
+
+#interface_calculadora {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#display_calculadora {
+    width: 45%;
+    margin-bottom: 5%;
+    padding: 4% 10%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(21, 105, 21);
+}
+
+.numeros_caluladora {
+    display: flex;
+    flex-direction: column;
+}
+
+.linha {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.linha button {
+    margin: 10%;
+    padding: 40% 60%;
+    font-size: 30px;
+    color: white;
+    border-radius: 5px;
+    background-color: rgb(20, 151, 20);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.linha button:hover {
+    transform: scale(1.1);
+    background-color: rgb(53, 180, 53);
+}
+
+#inputs_calculadora {
+    width: 50%;
 }

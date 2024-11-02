@@ -5,29 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarbonoEssencial</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="shotcut icon" type="imagex/png" href="./img/IconeSite.png">
+    <script src="https://kit.fontawesome.com/0d337a19d6.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
-        <nav></nav>
+        <div id="imagem_logo">
+            <a href="#"><img src="./img/LogoSite.png"></a>
+        </div>
+        <nav>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-solid fa-phone"></i></a>
+        </nav>
     </header>
-    <section class="bloco" id="banner">
-        <div id="destaque_imagem"></div>
-        <div id=txt_banner>
-            <p>Texto foda</p>
-            <a href="">Inciar Calculadora</a>
+    <section class="Bloco" id="Banner">
+        <div id="bloco_imagem"></div>
+        <div id="bloco_texto">
+            <div id=txt_banner>
+                <p>Descubra o impacto das suas emissões pessoais no meio ambiente com a nossa Calculadora de Carbono. Dê o primeiro passo para se tornar uma pessoa mais consciente!</p>
+                <a href="#Calculadora">Inciar Calculadora</a>
+            </div>
         </div>
     </section>
-    <section class="bloco" id="introducao">
-        <div>
+    <section class="Bloco" id="Introducao">
+        <div id="txt_introducao">
+            <h2>Pra que uma Calculadora de Carbono?</h2>
             <p>O objetivo do nosso site é criar uma Calculadora de Carbono que possa estimar as emissões de CO₂ produzidas em diversos meios, 
             mas também conscientizar a população sobre o gasto e emissão de C0₂. Abordamos as emissões por consumo de eletricidade, 
             gás de cozinha, veículos de transporte individuais, coletivos e de viagens, além de criar um sistema que estimula o usuário a tomar decisões que evitem as possíveis emissões, 
             como geração de energia limpa, optar por transportes coletivos ao invés de individuais e diversas outras. 
             Com o auxílio da ferramenta, os usuários podem perceber a importância de serem responsáveis ​​por suas emissões e orientar para a utilização de medidas mitigadoras, 
             o que estimula um melhor entendimento do meio ambiente.</p>
+            <h2>Demonstração do Funcionamento</h2>
         </div>
     </section>
-    <section class="bloco" id="calculadora">
+    <section class="Bloco" id="Calculadora">
         <div id="interface_calculadora">
             <div id="display_calculadora">
                 <span>0000000000</span>
@@ -49,11 +61,11 @@
         </div>
         <div id="inputs_calculadora">
             <h2>O que Deseja Calcular?</h2>
-            <button class="opcao_emissao">Emissões por Eletricidade</button>
-            <button class="opcao_emissao">Emissões por Gás de Cozinha</button>
-            <button class="opcao_emissao">Emissões de Transporte Individual</button>
-            <button class="opcao_emissao">Emissões de Transporte Coletivo</button>
-            <button class="opcao_emissao">Emissões de Transporte de Viagem</button>
+            <button class="opcao_emissao" id="eletricidade">Emissões por Eletricidade</button>
+            <button class="opcao_emissao" id="gas">Emissões por Gás de Cozinha</button>
+            <button class="opcao_emissao" id="transporte_individual">Emissões de Transporte Individual</button>
+            <button class="opcao_emissao" id="transporte_coletivo">Emissões de Transporte Coletivo</button>
+            <button class="opcao_emissao" id="transporte_viagem">Emissões de Transporte de Viagem</button>
         </div>
     </section>
     <footer>

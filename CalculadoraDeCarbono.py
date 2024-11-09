@@ -112,7 +112,7 @@ def calcular_transporte_individual():
 # Início da Iteração do Transporte Individual
     while True:
         print("Adicione o(s) meio(s) de Transporte Individual utilizado(s):")
-        opcao_transporte_individual = str(input("1 para Carro\n2 para Moto\n3 para Van\n4 para Caminhão\n5 para Bicicleta\n6 para Bicicleta Elétrica\n7 para Patinete Elétrico\n8 caso não tenha usado Transporte Individual\n0 caso queira concluir\nDigite o valor desejado: "))
+        opcao_transporte_individual = str(input("1 para Carro\n2 para Moto\n3 para Van\n4 para Caminhão\n5 para Bicicleta\n6 para Bicicleta Elétrica\n7 para Patinete Elétrico\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Individual
         match opcao_transporte_individual:
 
@@ -277,6 +277,7 @@ def calcular_transporte_individual():
                 transporte_individual.append(patinete_eletrico)
                 transporte_individual_evitado.append(patinete_eletrico_evitado)
 
+
 # Fim da Iteração do Transporte Individual
             case "0":
                 print(" * Transporte Individual Finalizado * ")
@@ -296,7 +297,7 @@ def calcular_transporte_coletivo():
 # Início da Iteração do Transporte Coletivo
     while True:
         print("Adicione o(s) meio(s) de Transporte Coletivo utilizado(s):")
-        opcao_transporte_coletivo = str(input("1 para Táxi\n2 para Metrô\n3 para Trem\n4 para Ônibus Municipal\n5 para Ônibus de Viagem\n6 caso não tenha usado Transporte Coletivo\n0 caso queira concluir\nDigite o valor desejado: "))
+        opcao_transporte_coletivo = str(input("1 para Táxi\n2 para Metrô\n3 para Trem\n4 para Ônibus Municipal\n5 para Ônibus de Viagem\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Coletivo
         match opcao_transporte_coletivo:
 
@@ -352,6 +353,7 @@ def calcular_transporte_coletivo():
                 transporte_coletivo.append(onibus_viagem)
                 transporte_coletivo_evitado.append(onibus_viagem_evitado)
 
+
 # Fim da Iteração do Transporte Coletivo
             case "0":
                 print(" * Transporte Coletivo Finalizado * ")
@@ -370,7 +372,7 @@ def calcular_transporte_viagem():
 # Início da Iteração do Transporte de Viagem
     while True:
         print("Adicione o(s) meio(s) de Transporte de Viagem utilizado(s):")
-        opcao_transporte_viagem = str(input("1 para Avião\n2 para Barco\n3 para Navio\n4 caso não tenha usado Transporte de Viagem\n0 caso queira concluir\nDigite o valor desejado: "))
+        opcao_transporte_viagem = str(input("1 para Avião\n2 para Barco\n3 para Navio\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Coletivo
         match opcao_transporte_viagem:
 
@@ -409,6 +411,7 @@ def calcular_transporte_viagem():
                 elif tipo == 4:
                     navio = km * 127.260
                 transporte_viagem.append(navio)
+
 
 # Fim da Iteração do Transporte de Viagem
             case "0":

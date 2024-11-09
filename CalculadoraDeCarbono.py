@@ -181,7 +181,7 @@ def calcular_transporte_individual():
                     elif combustivel == 2:
                         moto = km * (0.014/rendimento)
 # Cálculo da emissão evitada ao utilizar o etanol ao invés de uma moto a gasolina. Para uma comparação justa, no cálculo da moto a emissão de kg de CO² da gasolina é da moto por km (o mesmo vale pro seguinte cálculo)
-                        moto_evitado = km * (1.68/rendimento) - carro
+                        moto_evitado = km * (1.68/rendimento) - moto
                     moto_total = moto + moto_total
                     moto_evitado_total = moto_evitado_total + moto_evitado
                     
@@ -193,7 +193,7 @@ def calcular_transporte_individual():
 # Distância em km * (consumo da moto em kWh por km) * emissão em kg de CO² por kWh
                     moto = km * (capacidade_bateria/autonomia) * 0.0385
 # Cálculo da emissão evitada ao utilizar a moto/motor elétrico ao invés de uma moto a gasolina
-                    moto_evitado = km * (1.68/40) - carro
+                    moto_evitado = km * (1.68/40) - moto
                     moto_total = moto + moto_total
                     moto_evitado_total = moto_evitado_total + moto_evitado
                 transporte_individual.append(moto_total)

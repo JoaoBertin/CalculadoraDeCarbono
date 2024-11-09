@@ -136,7 +136,8 @@ def calcular_transporte_individual():
                         carro = km * (1.68/rendimento)
                     elif combustivel == 2:
                         carro = km * (0.014/rendimento)
-# Cálculo da emissão evitada ao utilizar o etanol ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual com etanol
+# Cálculo da emissão evitada ao utilizar o etanol ao invés de um carro a gasolina. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² da gasolina em um carro por km) subtraído pela emissão do veículo comparado (nesse caso o carro a etanol)
+# A conta se sucede a mesma em todos os cálculos de emissões evitadas por transportes
                         carro_evitado = km * (1.68/rendimento) - carro
                     elif combustivel == 3:
                         carro = km * (2.38/rendimento)
@@ -152,7 +153,7 @@ def calcular_transporte_individual():
                     capacidade_bateria = float(input("Digite a quantidade em kWh da Capacidade Total da bateria: "))
 # Distância em km * (consumo do carro em kWh por km) * emissão em kg de CO² por kWh
                     carro = km * (capacidade_bateria/autonomia) * 0.0385
-# Cálculo da emissão evitada ao utilizar o carro/motor elétrico ao invés do a combustão com gasolina. A conta se utiliza da quantidade percorrida em km * (emissão média de kg de CO² do combustível por km) subtraído pela emissão atual com o carro/motor elétrico
+# Cálculo da emissão evitada ao utilizar o carro/motor elétrico ao invés de um carro a gasolina
                     carro_evitado = km * (1.68/9.83) - carro
                     carro_total = carro + carro_total
                     carro_evitado_total = carro_evitado_total + carro_evitado
@@ -179,7 +180,7 @@ def calcular_transporte_individual():
                         moto = km * (1.68/rendimento)
                     elif combustivel == 2:
                         moto = km * (0.014/rendimento)
-# Cálculo da emissão evitada ao utilizar o etanol ao invés da gasolina em uma moto. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual com etanol
+# Cálculo da emissão evitada ao utilizar o etanol ao invés de uma moto a gasolina. Para uma comparação justa, no cálculo da moto a emissão de kg de CO² da gasolina é da moto por km (o mesmo vale pro seguinte cálculo)
                         moto_evitado = km * (1.68/rendimento) - carro
                     moto_total = moto + moto_total
                     moto_evitado_total = moto_evitado_total + moto_evitado
@@ -191,7 +192,7 @@ def calcular_transporte_individual():
                     capacidade_bateria = float(input("Digite a quantidade em kWh da Capacidade Total da bateria: "))
 # Distância em km * (consumo da moto em kWh por km) * emissão em kg de CO² por kWh
                     moto = km * (capacidade_bateria/autonomia) * 0.0385
-# Cálculo da emissão evitada ao utilizar a moto/motor elétrico ao invés de a combustão com gasolina. A conta se utiliza da quantidade percorrida em km * (emissão média de kg de CO² do combustível por km) subtraído pela emissão atual com a moto/motor elétrico
+# Cálculo da emissão evitada ao utilizar a moto/motor elétrico ao invés de uma moto a gasolina
                     moto_evitado = km * (1.68/40) - carro
                     moto_total = moto + moto_total
                     moto_evitado_total = moto_evitado_total + moto_evitado
@@ -251,8 +252,7 @@ def calcular_transporte_individual():
 # Calculo de emissões por Bicicleta de Transporte Individual
                 print("\nQuantos Quilômetros percorridos de Bicicleta?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
-# A ideia aqui é calcular a emissão evitada utilizando bicicleta. Os valores são da emissão de kg de CO² por litro de gasolina queimada / rendimento médio de carros a combustão
-                bike_evitado = km * (2.28/9.83)
+# A ideia aqui é calcular a emissão evitada utilizando bicicleta
                 transporte_individual_evitado.append(bike_evitado)
 
             case "6":
@@ -261,8 +261,8 @@ def calcular_transporte_individual():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Bicicleta Elétrica
                 bicicleta_eletrica = km * 0.022
-# Cálculo da emissão evitada ao utilizar a bicicleta elétrica ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual da bicicleta elétrica
-                bicicleta_eletrica_evitado = km * (2.28/9.83) - bicicleta_eletrica
+# Cálculo da emissão evitada ao utilizar a bicicleta elétrica ao invés de um carro a gasolina
+                bicicleta_eletrica_evitado = km * (1.68/9.83) - bicicleta_eletrica
                 transporte_individual.append(bicicleta_eletrica)
                 transporte_individual_evitado.append(bicicleta_eletrica_evitado)
 
@@ -272,8 +272,8 @@ def calcular_transporte_individual():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Patinete Elétrico
                 patinete_eletrico = km * 0.125
-# Cálculo da emissão evitada ao utilizar o patinete elétrico ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual do patinete elétrico
-                patinete_eletrico_evitado = km * (2.28/9.83) - patinete_eletrico
+# Cálculo da emissão evitada ao utilizar o patinete elétrico ao invés de um carro a gasolina
+                patinete_eletrico_evitado = km * (1.68/9.83) - patinete_eletrico
                 transporte_individual.append(patinete_eletrico)
                 transporte_individual_evitado.append(patinete_eletrico_evitado)
 
@@ -314,8 +314,8 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Metrô
                 metro = km * 0.006
-# Cálculo da emissão evitada ao utilizar metrô ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de metrô
-                metro_evitado = km * (2.28/9.83) - metro
+# Cálculo da emissão evitada ao utilizar metrô ao invés de um carro a gasolina
+                metro_evitado = km * (1.68/9.83) - metro
                 transporte_coletivo.append(metro)
                 transporte_coletivo_evitado.append(metro_evitado)
 
@@ -325,8 +325,8 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² por Passageiro/km de Trem
                 trem = km * 0.019
-# Cálculo da emissão evitada ao utilizar trem ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de trem
-                trem_evitado = km * (2.28/9.83) - trem
+# Cálculo da emissão evitada ao utilizar trem ao invés de um carro a gasolina
+                trem_evitado = km * (1.68/9.83) - trem
                 transporte_coletivo.append(trem)
                 transporte_coletivo_evitado.append(trem_evitado)
 
@@ -336,8 +336,8 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Ônibus
                 onibus = km * 0.080
-# Cálculo da emissão evitada ao utilizar ônibus ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de ônibus
-                onibus_evitado = km * (2.28/9.83) - onibus
+# Cálculo da emissão evitada ao utilizar ônibus ao invés de um carro a gasolina
+                onibus_evitado = km * (1.68/9.83) - onibus
                 transporte_coletivo.append(onibus)
                 transporte_coletivo_evitado.append(onibus_evitado)
 
@@ -347,8 +347,8 @@ def calcular_transporte_coletivo():
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de Ônibus de Viagem
                 onibus_viagem = km * 0.080
-# Cálculo da emissão evitada ao utilizar ônibus de viagem ao invés da gasolina em um carro. A conta se utiliza da quantidade percorrida em km * (emissão de kg de CO² do combustível por km) subtraído pela emissão atual de ônibus de viagem
-                onibus_viagem_evitado = km * (2.28/9.83) - onibus_viagem
+# Cálculo da emissão evitada ao utilizar ônibus de viagem ao invés de um carro a gasolina
+                onibus_viagem_evitado = km * (1.68/9.83) - onibus_viagem
                 transporte_coletivo.append(onibus_viagem)
                 transporte_coletivo_evitado.append(onibus_viagem_evitado)
 

@@ -20,7 +20,7 @@ def calcular_eletricidade():
 # Calculo de emissões por R$ de Consumo Elétrico Residencial
             consumo_eletricidade = float(input("Digite o valor em R$ do consumo de eletricidade mensal: "))
 # Mesma coisa do último caso, atribuição da variável kwh para o futuro cálculo de Geração de Energia Elétrica
-# (Valor total da conta de luz (R$) - (média de bandeira tarifária) - (COSSIP)) / pela taxa média de kWh
+# (Valor total da conta de luz (R$) - (média de bandeira tarifária) - (COSIP)) / pela taxa média de kWh
             kwh = (consumo_eletricidade - (consumo_eletricidade * 0.018) - (consumo_eletricidade * 0.03))/0.80
 # Quantidade de kWh consumidos * emissão em kg de CO² por kWh
             kg_carbono_eletricidade = kwh * 0.0385 
@@ -202,7 +202,7 @@ def calcular_transporte_individual():
             case "3":
 # Calculo de emissões por Van de Transporte Individual
                 print("\nQual a Categoria da sua Van (toneladas)?")
-                categoria = int(input("1 se for de até 1.305t\n2 se for de 1.305t a 1.74t\n3 se for de 1.74t a 3.5t\nDigite o valor desejado: "))
+                categoria = int(input("1 se for de até 1.30t\n2 se for de 1.30t a 1.74t\n3 se for de 1.74t a 3.5t\nDigite o valor desejado: "))
                 print("\nQual o Peso Transportado?")
                 carga = float(input("Digite a Carga Transportada (toneladas) pela Van: "))
                 print("\nQuantos Quilômetros percorridos de Van?")
@@ -237,7 +237,7 @@ def calcular_transporte_individual():
                     elif categoria == 3:
                         caminhao = km * 0.17 * carga
                 elif tipo == 2:
-                    categoria = int(input("\n1 se for de 3.5t a 33t\n2 se for acima de 33t:\nDigite o valor desejado: "))
+                    categoria = int(input("1 se for de 3.5t a 33t\n2 se for acima de 33t:\nDigite o valor desejado: "))
                     print("\nQual o Peso Transportado?")
                     carga = float(input("Digite a Carga Transportada (toneladas) pelo Caminhão: "))
                     print("\nQuantos Quilômetros percorridos de Caminhão?")
@@ -252,6 +252,7 @@ def calcular_transporte_individual():
 # Calculo de emissões por Bicicleta de Transporte Individual
                 print("\nQuantos Quilômetros percorridos de Bicicleta?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
+                bike_evitado = km * (1.68/9.83)
 # A ideia aqui é calcular a emissão evitada utilizando bicicleta
                 transporte_individual_evitado.append(bike_evitado)
 
@@ -538,6 +539,7 @@ def conferir_iniciar():
         creditos_carbono = total_emissoes_evitado/1000
 # R$ a serem doados = quantidade de CO² emitido em toneladas equivalentes a Créditos de Carbono * valor em R$ de cada Crédito
         reais_doacao = (total_emissoes_final/1000) * 25
+
             
 # Exibição dos Resultados dos Cálculos
         print("\n * Resultados dos Cálculos * ")
@@ -552,7 +554,7 @@ def conferir_iniciar():
         if creditos_carbono >= 1:
             print(f"Parabéns, você gerou o equivalente a {creditos_carbono} Crédito(s) de Carbono graças as emissões evitadas pelas suas ações!")
         if total_emissoes_final > 0:
-            print(f"É preciso restaurar {m2_reposicao:.2f}m² de árvores ou plantar {arvores_reposicao} árvore(s).")
+            print(f"É preciso restaurar {m2_reposicao:.2f}m² de árvores ou plantar {arvores_reposicao:.0f} árvore(s).")
             print(f"Doe R${reais_doacao:.2f} para ajudar a mitigar os impactos causados.")
         print("Obrigado por dar um passo a diante e se tornar uma pessoa mais consciente utilizando a nossa Calculadora de Carbono para medir as suas emissões mensais.")
 

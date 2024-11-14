@@ -20,8 +20,8 @@ def calcular_eletricidade():
 # Calculo de emissões por R$ de Consumo Elétrico Residencial
             consumo_eletricidade = float(input("Digite o valor em R$ do consumo de eletricidade mensal: "))
 # Mesma coisa do último caso, atribuição da variável kwh para o futuro cálculo de Geração de Energia Elétrica
-# (Valor total da conta de luz (R$) - (média de bandeira tarifária) - (COSIP)) / pela taxa média de kWh
-            kwh = (consumo_eletricidade - (consumo_eletricidade * 0.018) - (consumo_eletricidade * 0.03))/0.80
+# Valor total da conta de luz (R$) * 112.3%, que seria, de acordo com os cálculos efetuados, a porcentagem de R$ da conta para kWh
+            kwh = consumo_eletricidade * 1.123
 # Quantidade de kWh consumidos * emissão em kg de CO² por kWh
             kg_carbono_eletricidade = kwh * 0.0385 
 
@@ -373,7 +373,7 @@ def calcular_transporte_viagem():
 # Início da Iteração do Transporte de Viagem
     while True:
         print("Adicione o(s) meio(s) de Transporte de Viagem utilizado(s):")
-        opcao_transporte_viagem = str(input("1 para Avião\n2 para Barco\n3 para Navio\n0 caso queira concluir\nDigite o valor desejado: "))
+        opcao_transporte_viagem = str(input("1 para Avião\n2 para Lancha\n3 para Navio\n0 caso queira concluir\nDigite o valor desejado: "))
 # Estrutura de Seleção de Casos do Transporte Coletivo
         match opcao_transporte_viagem:
 
@@ -387,7 +387,7 @@ def calcular_transporte_viagem():
 
             case "2":
 # Calculo de emissões por Barco de Transporte de Viagem
-                print("\nQuantos Quilômetros percorridos de Barco?")
+                print("\nQuantos Quilômetros percorridos de Lancha?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de barcos pequenos
 # *Fiz uma conta maluca, usei o valor de emissão em libras de CO² por galão de diesel marinho (21.24) e converti em kg por litro (2.547). Depois fiz a média de rendimento milhas/l (0.91) para km/l (1.464). Então, peguei a emissão de CO² por litro de combustível e descobri quantos quilômetro rendem um litro, multiplicando os dois, temos a emissão a cada km (maluquice)
@@ -397,7 +397,7 @@ def calcular_transporte_viagem():
             case "3":
 # Calculo de emissões por Navio de Transporte de Viagem
                 print("\nQual o tipo do Navio?")
-                tipo = int(input("1 para Cruzeiro\n2 para Petroleiro\n3 para Container\n4 para Graneleiro\nDigite o valor desejado: "))
+                tipo = int(input("1 para Cruzeiro\n2 para Petroleiro\n3 para Contêiner\n4 para Graneleiro\nDigite o valor desejado: "))
                 print("\nQuantos Quilômetros percorridos de Navio?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
                 if tipo == 1:

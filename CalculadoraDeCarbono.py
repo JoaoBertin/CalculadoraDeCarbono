@@ -390,7 +390,6 @@ def calcular_transporte_viagem():
                 print("\nQuantos Quilômetros percorridos de Lancha?")
                 km = float(input("Digite a quantidade de km rodados em um mês: "))
 # Distância em km * emissão em kg de CO² de barcos pequenos
-# *Fiz uma conta maluca, usei o valor de emissão em libras de CO² por galão de diesel marinho (21.24) e converti em kg por litro (2.547). Depois fiz a média de rendimento milhas/l (0.91) para km/l (1.464). Então, peguei a emissão de CO² por litro de combustível e descobri quantos quilômetro rendem um litro, multiplicando os dois, temos a emissão a cada km (maluquice)
                 barco = km * 3.977
                 transporte_viagem.append(barco)
 
@@ -405,7 +404,6 @@ def calcular_transporte_viagem():
                     navio = km * 0.245
                 elif tipo == 2:
 # Distância em km * emissão em kg de CO² do tipo de navio
-# *Usei a emissão de CO² em toneladas emitidas durante um ano (exemplo graneleiro: 6023248.78), dividi esse valor pelo número de navios do mesmo ano (145) e consegui a emissão por ano de cada navio (41539.647). Após isso, converti esse número de 1 ano para 1 hora (4.808) e tranformei em kg (4808). Por último, dividi pela velocidade do tipo em km/h (37.781), conseguindo assim a emissão por km (127.260) (usei o mesmo procedimento em cada um dos 3 tipos)
                     navio = km * 207.798
                 elif tipo == 3:
                     navio = km * 418.236
